@@ -14,6 +14,7 @@
 <p align="center">
   <a href="#Preview">Preview</a> •
   <a href="#features">Features</a> •
+  <a href="#run-locally">Run Locally</a> •
   <a href="#license">License</a>
 </p>
 </div>
@@ -29,6 +30,27 @@
 
 **Maybe some description here**<br>
 here as well
+
+## Run Locally
+
+1. Clone the project via git or [Download ZIP](https://github.com/President-Cup/FkDaTsai-Back-End/archive/refs/heads/main.zip)
+
+```bash
+git clone https://github.com/President-Cup/FkDaTsai-Back-End.git
+```
+
+2. Go to the project directory, and install dependencies.
+
+```bash
+cd FkDaTsai-Back-End
+npm install
+```
+
+3. Start dev server.
+
+```bash
+npm run dev
+```
 
 ## License
 
