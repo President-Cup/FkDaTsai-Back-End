@@ -52,6 +52,11 @@ npm install
 npm run dev
 ```
 
+
+## Docs
+
+[PostgreSQL 正體中文使用手冊](https://docs.postgresql.tw/)
+
 ## License
 
 ```
