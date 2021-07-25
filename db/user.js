@@ -1,17 +1,26 @@
 const { pool } = require("./db");
+const bcrypt = require("bcrypt");
+
+const saltRounds = 15;
 
 async function createUser(userDetails) {
   const client = await pool.connect();
 
+  let hashedPassword;
+
   try {
     await client.query("BEGIN");
+
+    await bcrypt.hash(userDetails.userPassword, saltRounds).then((hash) => {
+      hashedPassword = hash;
+    });
 
     const insertUserText =
       "INSERT INTO users(user_name, user_mail, user_password) VALUES ($1, $2, $3);";
     const insertUserParams = [
       userDetails.userName,
       userDetails.userMail,
-      userDetails.userPassword,
+      hashedPassword,
     ];
 
     const result = await client.query(insertUserText, insertUserParams);
