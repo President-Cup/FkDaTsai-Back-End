@@ -1,6 +1,6 @@
 const pg = require("pg");
 
-const client = new pg.Client({
+const pool = new pg.Pool({
   host: process.env.DB_HOST,
   database: process.env.DB_DATABASE,
   user: process.env.DB_USER,
@@ -9,10 +9,9 @@ const client = new pg.Client({
   ssl: {
     rejectUnauthorized: false,
   },
+  max: 10,
+  idleTimeoutMillis: 30000,
+  connectionTimeoutMillis: 2000,
 });
 
-client.connect((err) => {
-  if (err) throw err;
-});
-
-module.exports = { pg, client };
+module.exports = { pg, pool };
