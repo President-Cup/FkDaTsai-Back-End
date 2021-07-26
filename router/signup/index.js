@@ -5,6 +5,9 @@ const userDb = require("../../db/user");
  * Create a new account.
  * @param {object} req - JSON object that contains the user's information.
  * @returns {}
+ * TODO: Add a check to make sure the email is valid, use validatorjs.
+ * TODO: Add a check to make sure the password is between 8 and 20 chars long.
+ * TODO: Sanitize input.
  */
 router.post("/", async (req, res) => {
   const request = req.body;
