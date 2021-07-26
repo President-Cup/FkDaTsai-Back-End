@@ -7,6 +7,7 @@ async function createUser(userDetails) {
   const client = await pool.connect();
 
   let hashedPassword;
+  let result;
 
   try {
     await client.query("BEGIN");
@@ -23,15 +24,15 @@ async function createUser(userDetails) {
       hashedPassword,
     ];
 
-    const result = await client.query(insertUserText, insertUserParams);
+    result = await client.query(insertUserText, insertUserParams);
 
     await client.query("COMMIT");
-    console.log(result);
   } catch (err) {
     await client.query("ROLLBACK");
     throw err;
   } finally {
     client.release();
+    return result.rowCount == 1;
   }
 }
 

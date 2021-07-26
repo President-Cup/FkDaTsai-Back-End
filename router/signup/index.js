@@ -7,20 +7,27 @@ const userDb = require("../../db/user");
  * @returns {}
  */
 router.post("/", async (req, res) => {
-  const isUserExists = await userDb.isUserExists(req.body.userMail)  
+  const request = req.body;
+
+  const isUserExists = await userDb.isUserExists(request.userMail);
   if (isUserExists) {
     // User exists, abort operation.
-    return res.status(400).json({ success: false, message: "User already exists." });
+    return res
+      .status(400)
+      .json({ success: false, message: "User already exists." });
   }
 
-  console.log("here");
+  const result = await userDb.createUser(request);
 
-  const result = await userDb.createUser(req.body);
-  console.log(result);
-
-  return res
-    .status(201)
-    .json({ success: true, message: "User created successfully." });
+  if (result) {
+    return res
+      .status(201)
+      .json({ success: true, message: "User created successfully." });
+  } else {
+    return res
+      .status(500)
+      .json({ success: false, message: "Error creating user." });
+  }
 });
 
 module.exports = router;
