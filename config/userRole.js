@@ -1,9 +1,9 @@
 let userRole = module.exports;
 
 const userRoles = (userRole.userRoles = {
-  doge: 1,
-  dogeKing: 2,
-  superDogeKing: 4,
+  user: 1,
+  admin: 2,
+  superadmin: 4,
 });
 
 // config.accessLevels = {
@@ -12,8 +12,15 @@ const userRoles = (userRole.userRoles = {
 //   superDogeKing: userRoles.superDogeKing,
 // };
 
+/**
+ * The access levels will be added up, copied from unknown tutorial.
+ * 
+ * user: 1,
+ * admin: 1 + 2,
+ * superadmin: 1 + 2 + 4,
+*/
 userRole.accessLevels = {
-  doge: userRoles.doge,
-  dogeKing: userRoles.doge | userRoles.dogeKing,
-  superDogeKing: userRoles.doge | userRoles.dogeKing | userRoles.superDogeKing,
+  user: userRoles.user,
+  admin: userRoles.user | userRoles.admin,
+  superadmin: userRoles.user | userRoles.admin | userRoles.superadmin,
 };
