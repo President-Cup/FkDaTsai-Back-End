@@ -1,6 +1,6 @@
 const allowOnly = function (accessLevel, callback) {
   function checkUserRole(req, res) {
-    const role = req.user[0].user_role;
+    const role = req.user.user_role;
     
     console.log("Access Level: " + accessLevel + ", User Role: " + role);
 
