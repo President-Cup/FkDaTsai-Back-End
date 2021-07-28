@@ -6,6 +6,7 @@ const { jwtOptions } = require("../../config/passport");
 
 /**
  * Main sign in api.
+ * JWT payload: { userid: int }
  */
 router.post("/", async (req, res) => {
   const { userMail, userPassword } = req.body;
