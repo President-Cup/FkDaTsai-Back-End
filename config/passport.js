@@ -1,7 +1,7 @@
 const passport = require("passport");
 const passportJWT = require("passport-jwt");
 const jwt = require("jsonwebtoken");
-const studentsDB = require("../db/students");
+const userDb = require("../db/user");
 // import models from "../models";
 
 // const Users = models.User;
@@ -17,8 +17,11 @@ jwtOptions.secretOrKey = process.env.JWT_SECRET;
 
 let strategy = new JwtStrategy(jwtOptions, async (jwt_payload, done) => {
   // console.log("payload received", jwt_payload);
+  let user = await userDb.findUserById(jwt_payload.userid);
 
-  let user = await studentsDB.getStudentByStudentId(jwt_payload.sid);
+  // if (err) {
+  //   return done(err, false);
+  // }
 
   if (user) {
     done(null, user);
