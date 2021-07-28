@@ -50,7 +50,53 @@ async function isUserExists(userMail) {
   return isUserExists;
 }
 
+async function findUserById(userId) {
+  const client = await pool.connect();
+
+  const findUserText = "SELECT * FROM users WHERE user_id = $1";
+  const findUserParams = [userId];
+
+  let user;
+
+  try {
+    await client.query(findUserText, findUserParams).then((result) => {
+      if (result.rowCount > 0) {
+        user = result.rows[0];
+      }
+    });
+  } catch (err) {
+    throw err;
+  } finally {
+    client.release();
+    return user;
+  }
+}
+
+async function findUserByMail(userMail) {
+  const client = await pool.connect();
+
+  const findUserText = "SELECT * FROM users WHERE user_mail = $1";
+  const findUserParams = [userMail];
+
+  let user;
+
+  try {
+    await client.query(findUserText, findUserParams).then((result) => {
+      if (result.rowCount > 0) {
+        user = result.rows[0];
+      }
+    });
+  } catch (err) {
+    throw err;
+  } finally {
+    client.release();
+    return user;
+  }
+}
+
 module.exports = {
   createUser,
   isUserExists,
+  findUserById,
+  findUserByMail,
 };
