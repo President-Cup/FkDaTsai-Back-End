@@ -2,6 +2,9 @@ const router = require("express").Router();
 const bcrypt = require("bcrypt");
 const userDb = require("../../db/user");
 const jwt = require("jsonwebtoken");
+const passport = require("passport");
+const userRole = require("../../config/userRole");
+const { allowOnly } = require("../routerHelper");
 const { jwtOptions } = require("../../config/passport");
 
 /**
@@ -68,27 +71,36 @@ router.post("/", async (req, res) => {
   }
 });
 
+/**
+ * Renew jwt token.
+ */
+router.post("/renew", async (req, res) => {
+  console.log(userRole.accessLevels.superadmin);
+  return res
+    .status(200)
+    .json({ success: false, message: "This is /api/v1/signin/renew" });
+});
 
 /**
- * Authorization test router, ACCESS LEVEL = Doge (1)
+ * Authorization test router, ACCESS LEVEL = User (1)
  */
-// router.get(
-//   "/doge",
-//   passport.authenticate("jwt", { session: false }),
-//   allowOnly(userRole.accessLevels.doge, async (req, res) => {
-//     res.json("Welcome back, doge!");
-//   })
-// );
+router.get(
+  "/user",
+  passport.authenticate("jwt", { session: false }),
+  allowOnly(userRole.accessLevels.user, async (req, res) => {
+    res.json("This is /api/vi/signin/user!");
+  })
+);
 
 /**
- * Authorization test router, ACCESS LEVEL = Doge King (3)
+ * Authorization test router, ACCESS LEVEL = Admin (3)
  */
-// router.get(
-//   "/dogeKing",
-//   passport.authenticate("jwt", { session: false }),
-//   allowOnly(userRole.accessLevels.dogeKing, async (req, res) => {
-//     res.json("Welcome back, my king!");
-//   })
-// );
+router.get(
+  "/admin",
+  passport.authenticate("jwt", { session: false }),
+  allowOnly(userRole.accessLevels.admin, async (req, res) => {
+    res.json("Welcome back, my admin!");
+  })
+);
 
 module.exports = router;
