@@ -1,6 +1,7 @@
 const router = require("express").Router();
-// const { pool } = require("../../db/db");
 const categoryDb = require("../../db/category");
+
+// TODO: Error handling
 
 /**
  * Get all the category
@@ -14,18 +15,9 @@ router.get("/", async (req, res) => {
  * Get all the subcategories in the specific category
  */
 router.get("/subcategory", async (req, res) => {
-  try {
-    const { categoryId } = req.body;
-    const allSubCategory = await pool.query(
-      "SELECT * FROM category_sub WHERE category_id = $1",
-      [categoryId]
-    );
-    res.json(allSubCategory.rows);
-    const rows = allSubCategory.rows;
-    res.send(JSON.stringify(rows));
-  } catch (err) {
-    console.error(err.message);
-  }
+  const { categoryId } = req.body;
+  let result = await categoryDb.getSubCategory(categoryId);
+  return res.status(200).json(result.rows);
 });
 
 module.exports = router;
